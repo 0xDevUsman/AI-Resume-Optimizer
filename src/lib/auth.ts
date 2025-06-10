@@ -4,7 +4,7 @@ import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import bcrypt from "bcryptjs";
 import User, { IUser } from "@/models/user";
-import { dbConnect } from "@/lib/mongo";
+import { dbConnect } from "@/lib/db";
 
 // Extend NextAuth types to include 'id' in session.user
 declare module "next-auth" {
