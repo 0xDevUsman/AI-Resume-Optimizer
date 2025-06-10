@@ -1,11 +1,13 @@
+import Hero from "@/components/custom/Hero";
+import Navbar from "@/components/custom/Navbar";
 import React from "react";
-import ThemeToggle from "@/components/ui/ThemeToggle";
 
 const page = () => {
   return (
-    <div>
-      <div className="flex">
-        <ThemeToggle />
+    <div className="">
+      <div>
+        <Navbar />
+        <Hero />
       </div>
     </div>
   );
