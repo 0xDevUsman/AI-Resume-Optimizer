@@ -20,7 +20,7 @@ export default function ThemeToggle() {
   const isDark = theme === "dark";
 
   return (
-    <div className="flex justify-between items-center gap-3 p-6">
+    <div className="flex justify-between items-center gap-3">
       <span className="text-lg text-muted-foregrouand">
         {theme === "dark" ? <FaMoon /> : <LuSun />}
       </span>

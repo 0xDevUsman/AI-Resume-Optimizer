@@ -4,9 +4,8 @@ import ThemeToggle from "@/components/ui/ThemeToggle";
 const page = () => {
   return (
     <div>
-      <div className="flex gap-16">
+      <div className="flex">
         <ThemeToggle />
-        <h1>Usman ali</h1>
       </div>
     </div>
   );
