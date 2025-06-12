@@ -1,54 +1,45 @@
-"use client";
+import React from "react";
+import Image from "next/image";
 
-import { motion } from "framer-motion";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { FaArrowRightLong } from "react-icons/fa6";
 
 const Navbar = () => {
   return (
-    <motion.nav
-      initial={{ y: -50, opacity: 0 }}
-      animate={{ y: 0, opacity: 1 }}
-      transition={{ type: "spring", stiffness: 100, delay: 0.1 }}
-      className="w-full px-6 py-4 bg-background"
-    >
-      <div className="max-w-7xl mx-auto flex items-center justify-between">
-        {/* Logo */}
-        <Link href="/" className="text-xl font-bold text-white">
-          CVNinja 🥷
-        </Link>
-
-        <div className="hidden md:flex space-x-6 text-sm font-medium text-muted-foreground">
-          <Link
-            href="/optimizer"
-            className="hover:opacity-85 text-white transition-colors"
-          >
-            Optimizer
-          </Link>
-          <Link
-            href="/about"
-            className="hover:opacity-85 text-white transition-colors"
-          >
-            About Us
-          </Link>
-          <Link
-            href="/faq"
-            className="hover:opacity-85 text-white transition-colors"
-          >
-            FAQ
-          </Link>
+    <>
+      <div className="flex justify-around items-center bg-transparent text-white p-4">
+        <div>
+          <Image
+            src="https://ai-tool-tailwind.preview.uideck.com/images/logo.svg"
+            alt="Logo"
+            width={150}
+            height={150}
+            priority
+          />
         </div>
-
-        {/* Login Button */}
-        <Link href="/login">
-          <Button className="cursor-pointer bg-blue-600 text-white">
-            Login
-          </Button>
-        </Link>
+        <div className="flex space-x-8 text-sm">
+          <h1 className="">Home</h1>
+          <h1>Features</h1>
+          <h1>Testomonials</h1>
+          <h1>Support</h1>
+        </div>
+        <div className="flex space-x-4 text-sm items-center">
+          <button className="cursor-pointer px-4 py-1 hover:opacity-85">
+            Sign in
+          </button>
+          <button className="px-4 py-1 rounded-md bg-linear-to-t from-[#925EEE] to-[#6A2ADB] cursor-pointer flex items-center gap-1 hover:opacity-75">
+            Sign up
+            <span className="text-white text-base">→</span>
+          </button>
+        </div>
       </div>
-      <hr className="h-0.5 bg-gray-100 my-4" />
-    </motion.nav>
+    </>
   );
 };
 
 export default Navbar;
+
+{
+  /* <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+  <div className="w-[1000px] h-[1000px] bg-[#12082E] -z-40 blur-3xl rounded-full"></div>
+</div> */
+}
