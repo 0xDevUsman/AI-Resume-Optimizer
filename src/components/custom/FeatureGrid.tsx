@@ -46,7 +46,7 @@ const FeatureGrid = () => {
         className="relative flex flex-col items-center justify-center text-center mt-20"
       >
         <div className="absolute top-[10px] w-54 h-6 bg-gradient-to-r from-purple-400 via-white to-purple-400 opacity-30 blur-lg rounded-full"></div>
-        <div className="mb-6 px-4 py-2 gap-2 flex items-center text-center justify-center border bg-[#050213] rounded-full shadow-lg relative z-10">
+        <div className="mb-6 px-4 py-2 gap-2 flex items-center text-center justify-center border bg-gradient-to-t from-[#030014] to-[#241844] rounded-full shadow-lg relative z-10">
           <PiSparkleFill className="text-6xl md:text-sm text-[#D9C4FF]" />
           <h2 className="text-2xl md:text-sm font-medium text-[#C49CFF]">
             Some of Main Features

@@ -24,7 +24,7 @@ const Navbar = () => {
           : "bg-transparent"
       }`}
     >
-      <div>
+      <Link href={"/"}>
         <Image
           src="https://ai-tool-tailwind.preview.uideck.com/images/logo.svg"
           alt="Logo"
@@ -32,10 +32,10 @@ const Navbar = () => {
           height={150}
           priority
         />
-      </div>
+      </Link>
 
       <div className="flex space-x-8 text-sm text-white">
-        <Link href="#home" className="hover:opacity-85 cursor-pointer">
+        <Link href="/" className="hover:opacity-85 cursor-pointer">
           Home
         </Link>
         <Link href="#features" className="hover:opacity-85 cursor-pointer">
