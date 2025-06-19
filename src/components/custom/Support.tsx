@@ -26,23 +26,28 @@ const Support = () => {
         {/* Form */}
         <form className="w-full space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <Input
-              placeholder="Your Name"
-              className="bg-transparent backdrop-blur-sm text-white py-3 px-4 border border-white/10 focus-visible:ring-[#8b5cf6] placeholder:text-white/60"
+            <input
+              type="name"
+              placeholder="Name"
+              className="w-full p-3 bg-transparent text-white rounded-lg 
+             focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7] border border-white/10"
             />
-            <Input
+            <input
               type="email"
               placeholder="Your Email"
-              className="bg-transparent backdrop-blur-sm text-white py-3 px-4 border border-white/10 focus-visible:ring-[#8b5cf6] placeholder:text-white/60"
+              className="w-full p-3 bg-transparent text-white rounded-lg 
+             focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7] border border-white/10"
             />
           </div>
           <Input
             placeholder="Subject"
-            className="bg-transparent backdrop-blur-sm text-white py-3 px-4 border border-white/10 focus-visible:ring-[#8b5cf6] placeholder:text-white/60"
+            className="w-full p-3 bg-transparent text-white rounded-lg 
+             focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7] border border-white/10"
           />
           <Textarea
             placeholder="Your Message"
-            className="bg-transparent backdrop-blur-sm text-white py-3 px-4 border border-white/10 focus-visible:ring-[#8b5cf6] min-h-[120px] placeholder:text-white/60"
+            className="w-full p-3 bg-transparent text-white rounded-lg 
+             focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7] border border-white/10"
           />
           <Button
             type="submit"

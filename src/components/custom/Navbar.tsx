@@ -50,9 +50,12 @@ const Navbar = () => {
       </div>
 
       <div className="flex space-x-4 text-sm items-center text-white">
-        <button className="cursor-pointer px-4 py-2 rounded-md hover:opacity-85">
+        <Link
+          href={"/signin"}
+          className="cursor-pointer px-4 py-2 rounded-md hover:opacity-85"
+        >
           Sign in
-        </button>
+        </Link>
         <Link
           href={"/signup"}
           className="px-4 py-2 rounded-md bg-gradient-to-t from-[#925EEE] to-[#6A2ADB] cursor-pointer flex items-center gap-2 hover:from-[#7b4fc7] hover:to-[#5923b6]"
