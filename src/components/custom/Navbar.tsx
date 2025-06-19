@@ -53,12 +53,15 @@ const Navbar = () => {
         <button className="cursor-pointer px-4 py-2 rounded-md hover:opacity-85">
           Sign in
         </button>
-        <button className="px-4 py-2 rounded-md bg-gradient-to-t from-[#925EEE] to-[#6A2ADB] cursor-pointer flex items-center gap-2 hover:from-[#7b4fc7] hover:to-[#5923b6]">
+        <Link
+          href={"/signup"}
+          className="px-4 py-2 rounded-md bg-gradient-to-t from-[#925EEE] to-[#6A2ADB] cursor-pointer flex items-center gap-2 hover:from-[#7b4fc7] hover:to-[#5923b6]"
+        >
           Sign up
           <span className="text-white text-base">
             <FaArrowRightLong className="w-3" />
           </span>
-        </button>
+        </Link>
       </div>
     </div>
   );
