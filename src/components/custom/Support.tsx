@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
 import { PiSparkleFill } from "react-icons/pi";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 
 const Support = () => {
@@ -39,12 +37,13 @@ const Support = () => {
              focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7] border border-white/10"
             />
           </div>
-          <Input
+          <input
+            type="text"
             placeholder="Subject"
             className="w-full p-3 bg-transparent text-white rounded-lg 
              focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7] border border-white/10"
           />
-          <Textarea
+          <textarea
             placeholder="Your Message"
             className="w-full p-3 bg-transparent text-white rounded-lg 
              focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7] border border-white/10"

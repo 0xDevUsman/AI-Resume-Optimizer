@@ -3,7 +3,6 @@ import Blog from "@/components/custom/Blog";
 import FeatureGrid from "@/components/custom/FeatureGrid";
 import Footer from "@/components/custom/Footer";
 import Hero1 from "@/components/custom/Hero1";
-import News from "@/components/custom/News";
 import Support from "@/components/custom/Support";
 import Swipper from "@/components/custom/Swipper";
 import Testimonials from "@/components/custom/Testimonials";
@@ -19,7 +18,6 @@ const page = () => {
       <Swipper />
       <Support />
       <Blog />
-      <News />
       <Footer />
     </div>
   );
