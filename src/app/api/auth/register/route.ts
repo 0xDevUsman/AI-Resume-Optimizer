@@ -39,14 +39,17 @@ export const POST = async (req: NextRequest) => {
 
     await user.save();
 
-    return NextResponse.json({
-      message: "User registered successfully",
-      user: {
-        id: (user._id as { toString: () => string }).toString(),
-        name: user.name,
-        email: user.email,
+    return NextResponse.json(
+      {
+        message: "User registered successfully",
+        user: {
+          id: (user._id as { toString: () => string }).toString(),
+          name: user.name,
+          email: user.email,
+        },
       },
-    });
+      { status: 201 }
+    );
   } catch (error) {
     return NextResponse.json(
       {
