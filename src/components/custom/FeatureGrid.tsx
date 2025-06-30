@@ -56,8 +56,8 @@ const FeatureGrid = () => {
         transition={{ duration: 0.6 }}
         className="mb-6 px-4 py-2 gap-2 flex items-center text-center justify-center border bg-gradient-to-t from-[#030014] to-[#241844] rounded-full shadow-lg relative z-10"
       >
-        <PiSparkleFill className="text-6xl md:text-sm text-[#D9C4FF]" />
-        <h2 className="text-2xl md:text-sm font-medium text-[#C49CFF]">
+        <PiSparkleFill className="text-xl md:text-sm text-[#D9C4FF]" />
+        <h2 className="text-base md:text-sm font-medium text-[#C49CFF]">
           Some of Main Features
         </h2>
       </motion.div>
@@ -66,7 +66,7 @@ const FeatureGrid = () => {
         initial={{ opacity: 0, y: 10 }}
         whileInView={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}
-        className="text-4xl sm:text-5xl font-bold mt-2 text-white"
+        className="text-2xl sm:text-5xl font-bold mt-2 text-white"
       >
         Key Features of Our Tool
       </motion.h1>
@@ -75,7 +75,7 @@ const FeatureGrid = () => {
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ delay: 0.4, duration: 0.5 }}
-        className="max-w-[714px] mx-auto mb-5 font-normal text-base text-[#8D8395] mt-6"
+        className="max-w-[714px] mx-auto mb-5 font-normal text-sm text-[#8D8395] mt-6"
       >
         Our AI resume tool is designed to empower you with smart
         suggestions—enhancing content, formatting, and keywords to make your

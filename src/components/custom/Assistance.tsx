@@ -26,10 +26,10 @@ const Assistance = () => {
         >
           <div className="mb-6 min-w-[18rem] px-4 py-2 gap-2 flex items-center text-center justify-center bg-gradient-to-t from-[#030014] to-[#241844] rounded-full shadow-lg">
             <PiSparkleFill
-              className="text-6xl md:text-sm text-[#D9C4FF]"
+              className="text-xl md:text-sm text-[#D9C4FF]"
               aria-hidden="true"
             />
-            <h2 className="text-2xl md:text-sm font-medium text-[#BF99F7]">
+            <h2 className="text-base md:text-sm font-medium text-[#BF99F7]">
               AI-Powered Writing Tool
             </h2>
           </div>

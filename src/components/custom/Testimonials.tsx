@@ -97,13 +97,19 @@ const Testimonials = () => {
       className="flex flex-col items-center justify-center mt-20 px-4"
     >
       <div className="mb-6 px-4 py-2 gap-2 flex items-center justify-center border bg-gradient-to-t from-[#030014] to-[#241844] rounded-full shadow-lg relative w-40">
-        <PiSparkleFill className="text-6xl md:text-sm text-[#D9C4FF]" />
-        <h2 className="text-2xl md:text-sm font-medium text-[#b47ef1]">Wall of love</h2>
+        <PiSparkleFill className="text-xl md:text-sm text-[#D9C4FF]" />
+        <h2 className="text-base md:text-sm font-medium text-[#b47ef1]">
+          Wall of love
+        </h2>
       </div>
 
-      <h1 className="text-5xl text-white font-bold text-center">What Our User Says</h1>
+      <h1 className="text-2xl text-white font-bold text-center">
+        What Our User Says
+      </h1>
       <p className="max-w-[714px] mx-auto mb-5 font-normal text-sm text-[#8D8395] my-6 text-center">
-        Our AI writing tool is designed to empower you with exceptional writing capabilities, making the writing process more efficient, accurate, and enjoyable.
+        Our AI writing tool is designed to empower you with exceptional writing
+        capabilities, making the writing process more efficient, accurate, and
+        enjoyable.
       </p>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-x-20 gap-y-10 text-white items-center justify-center w-full max-w-5xl p-8 rounded-xl shadow-lg mt-10 mx-auto">
@@ -125,7 +131,9 @@ const Testimonials = () => {
               </div>
             </div>
 
-            <blockquote className="text-sm text-[#cac2d1] mt-4 italic">{description}</blockquote>
+            <blockquote className="text-sm text-[#cac2d1] mt-4 italic">
+              {description}
+            </blockquote>
           </article>
         ))}
       </div>

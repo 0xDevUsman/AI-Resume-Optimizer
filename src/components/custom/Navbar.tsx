@@ -49,7 +49,7 @@ const Navbar: React.FC = () => {
   return (
     <>
       <nav
-        className={`sticky top-0 z-50 flex justify-between items-center p-4 transition-all duration-300 ${
+        className={`sticky top-0 z-50 flex  justify-between items-center py-4 px-10 transition-all duration-300 ${
           scrolled
             ? "bg-[#030014]/60 backdrop-blur-md shadow-md"
             : "bg-transparent"
@@ -63,7 +63,7 @@ const Navbar: React.FC = () => {
             width={150}
             height={150}
             priority
-            className="cursor-pointer"
+            className="cursor-pointer w-32 sm:w-40 h-auto transition-transform duration-300 transform hover:scale-105"
           />
         </Link>
 
@@ -230,7 +230,7 @@ const Navbar: React.FC = () => {
                   </Link>
                   <Link
                     href="/signup"
-                    className="block px-4 py-2 rounded-md bg-gradient-to-t from-[#925EEE] to-[#6A2ADB] flex items-center gap-2 hover:from-[#7b4fc7] hover:to-[#5923b6] transition-colors duration-200"
+                    className=" px-4 py-2 rounded-md bg-gradient-to-t from-[#925EEE] to-[#6A2ADB] flex items-center gap-2 hover:from-[#7b4fc7] hover:to-[#5923b6] transition-colors duration-200"
                     onClick={() => setMenuOpen(false)}
                   >
                     Sign up <FaArrowRight />

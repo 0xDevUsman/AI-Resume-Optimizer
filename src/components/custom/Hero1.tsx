@@ -29,14 +29,14 @@ const Hero1 = () => {
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.3, duration: 0.5 }}
         >
-          <PiSparkleFill className="text-6xl md:text-sm text-[#D9C4FF]" />
-          <h2 className="text-2xl md:text-sm font-medium text-[#BF99F7]">
+          <PiSparkleFill className="text-xl md:text-sm text-[#D9C4FF]" />
+          <h2 className="text-base md:text-sm font-medium text-[#BF99F7]">
             Your Ultimate Creative Companion!{" "}
           </h2>
         </motion.div>
 
         <motion.h1
-          className="text-4xl md:text-6xl font-bold text-white mb-6"
+          className="text-3xl md:text-6xl font-bold text-white mb-6 px-2 sm:px-0"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.6 }}
@@ -45,14 +45,14 @@ const Hero1 = () => {
         </motion.h1>
 
         <motion.p
-          className="text-lg md:text-base text-[#8D8395] mb-8 max-w-2xl"
+          className="text-sm sm:text-lg px-4 sm:px-0 md:text-base text-[#8D8395] mb-8 max-w-2xl"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.7, duration: 0.6 }}
         >
           CVNinja is a highly customizable AI resume optimizer built with
-          Tailwind CSS and Next.js. <br /> It includes all the essential
-          pages, features, and components <br />
+          Tailwind CSS and Next.js. <br /> It includes all the essential pages,
+          features, and components <br />
           you need to analyze, enhance, and perfect your resume.
         </motion.p>
 
