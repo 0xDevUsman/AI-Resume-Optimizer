@@ -198,7 +198,7 @@ const Navbar: React.FC = () => {
               variants={menuVariants}
               transition={{ type: "spring", stiffness: 300, damping: 30 }}
             >
-              <nav className="flex flex-col gap-4 text-base">
+              <nav className="flex flex-col gap-4 text-base mt-10">
                 <Link
                   href="/"
                   onClick={toggleMenu}

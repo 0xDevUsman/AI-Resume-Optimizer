@@ -7,19 +7,19 @@ import { Providers } from "@/components/custom/Providers";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  display: 'swap' // Better font loading performance
+  display: "swap", // Better font loading performance
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
-  display: 'swap'
+  display: "swap",
 });
 
 export const metadata: Metadata = {
-  title: "Your App Name",
+  title: "CVNinja - Your AI-Powered Resume Builder",
   description: "Your app description",
-  viewport: "width=device-width, initial-scale=1, maximum-scale=1" // Prevent mobile zooming
+  viewport: "width=device-width, initial-scale=1, maximum-scale=1", // Prevent mobile zooming
 };
 
 export default function RootLayout({
@@ -35,9 +35,7 @@ export default function RootLayout({
         <Providers>
           <div className="min-h-screen flex flex-col">
             <Navbar />
-            <main className="flex-1 w-full overflow-hidden">
-              {children}
-            </main>
+            <main className="flex-1 w-full overflow-hidden">{children}</main>
           </div>
         </Providers>
       </body>

@@ -90,7 +90,7 @@ const FeatureGrid = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: idx * 0.1 }}
-            className="flex flex-col items-center text-center h-56 sm:h-64 bg-[#030014] p-4 sm:p-6 transition duration-300 hover:scale-[1.02]"
+            className="flex flex-col items-center text-center h-56 sm:h-64 bg-[#030014] p-4 sm:p-6 transition duration-300"
           >
             <span className="relative w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-[#110E21] border-[1px] border-[#282537] inline-flex items-center justify-center mb-4 sm:mb-6 mx-auto">
               <img
