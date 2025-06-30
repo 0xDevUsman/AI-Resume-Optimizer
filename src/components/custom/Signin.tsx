@@ -89,9 +89,7 @@ const SignIn = () => {
                   Remember me
                 </label>
               </div>
-              <a href="#" className="text-sm text-[#9763f1] hover:underline">
-                Forgot Password?
-              </a>
+             
             </div>
 
             <button
