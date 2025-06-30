@@ -1,27 +1,35 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Image from "next/image";
 import Github from "@/assets/github.png";
 import Footer from "./Footer";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
-import { useState } from "react";
-import { Skeleton } from "../ui/skeleton";
 
 const SignIn = () => {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleCredentialsSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!email || !password) {
+      alert("Please enter both email and password.");
+      return;
+    }
+
+    setLoading(true);
     const res = await signIn("credentials", {
       redirect: false,
       email,
       password,
     });
+
+    setLoading(false);
 
     if (res?.ok) {
       router.push("/"); // Redirect after login
@@ -66,6 +74,7 @@ const SignIn = () => {
               type="button"
               onClick={() => signIn("google")}
               className="w-full p-3 bg-[#1a1a2e] text-white rounded-lg flex items-center justify-center gap-3 border border-transparent hover:border-[#9D68F7] transition"
+              disabled={loading}
             >
               <img
                 src="https://www.google.com/favicon.ico"
@@ -77,8 +86,9 @@ const SignIn = () => {
 
             <button
               type="button"
-              onClick={() =>  signIn("github", { callbackUrl: "/" })}
+              onClick={() => signIn("github", { callbackUrl: "/" })}
               className="w-full p-3 bg-[#1a1a2e] text-white rounded-lg flex items-center justify-center gap-3 border border-transparent hover:border-[#9D68F7] transition"
+              disabled={loading}
             >
               <Image src={Github} alt="Github" className="w-5" />
               <span>Sign in with GitHub</span>
@@ -96,6 +106,8 @@ const SignIn = () => {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="w-full p-3 bg-[#1a1a2e] text-white rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9D68F7]"
+              disabled={loading}
+              required
             />
 
             <input
@@ -104,15 +116,20 @@ const SignIn = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="w-full p-3 bg-[#1a1a2e] text-white rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9D68F7]"
+              disabled={loading}
+              required
             />
 
             <button
               type="submit"
-              className="w-full mt-2 p-3 bg-gradient-to-t from-[#925EEE] to-[#6A2ADB] text-white font-semibold rounded-lg hover:from-[#7b4fc7] hover:to-[#5923b6] transition"
+              className="w-full mt-2 p-3 bg-gradient-to-t from-[#925EEE] to-[#6A2ADB] text-white font-semibold rounded-lg hover:from-[#7b4fc7] hover:to-[#5923b6] transition disabled:opacity-60 disabled:cursor-not-allowed"
+              disabled={loading}
             >
-              Sign in
+              {loading ? "Signing in..." : "Sign in"}
             </button>
-            <Skeleton />
+
+            {/* Removed the always-visible Skeleton */}
+
             <p className="text-center text-gray-400 mt-4 text-sm">
               Don&apos;t have an account?{" "}
               <span

@@ -1,9 +1,26 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { PiSparkleFill } from "react-icons/pi";
 import { Button } from "@/components/ui/button";
 
 const Support = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // TODO: Implement submit logic or API call here
+    alert("Message sent! (functionality not implemented yet)");
+  };
+
   return (
     <div id="support" className="flex justify-center items-center px-4 mt-10">
       <div className="w-full max-w-3xl flex flex-col items-center rounded-lg bg-conic-180 from-[#03010a] via-[#170a44] to-[#040011] border border-white/20 text-center text-white p-8 shadow-xl">
@@ -22,31 +39,49 @@ const Support = () => {
         </p>
 
         {/* Form */}
-        <form className="w-full space-y-4">
+        <form onSubmit={handleSubmit} className="w-full space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <input
-              type="name"
+              type="text"
+              name="name"
               placeholder="Name"
+              value={formData.name}
+              onChange={handleChange}
               className="w-full p-3 bg-transparent text-white rounded-lg 
              focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7] border border-white/10"
+              required
+              autoComplete="name"
             />
             <input
               type="email"
+              name="email"
               placeholder="Your Email"
+              value={formData.email}
+              onChange={handleChange}
               className="w-full p-3 bg-transparent text-white rounded-lg 
              focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7] border border-white/10"
+              required
+              autoComplete="email"
             />
           </div>
           <input
             type="text"
+            name="subject"
             placeholder="Subject"
+            value={formData.subject}
+            onChange={handleChange}
             className="w-full p-3 bg-transparent text-white rounded-lg 
              focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7] border border-white/10"
           />
           <textarea
+            name="message"
             placeholder="Your Message"
+            rows={5}
+            value={formData.message}
+            onChange={handleChange}
             className="w-full p-3 bg-transparent text-white rounded-lg 
-             focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7] border border-white/10"
+             focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7] border border-white/10 mb-4"
+            required
           />
           <Button
             type="submit"

@@ -63,6 +63,7 @@ const SignUp: React.FC = () => {
         <form
           onSubmit={handleSubmit}
           className="relative w-full max-w-5xl mx-auto mt-10 p-6 bg-[#100D20] rounded-lg shadow-lg flex justify-around items-center py-10"
+          noValidate
         >
           <div className="flex flex-col items-start justify-center space-y-6">
             <h1 className="text-3xl text-white font-medium text-start">
@@ -83,7 +84,10 @@ const SignUp: React.FC = () => {
             <button
               type="button"
               onClick={() => signIn("google", { callbackUrl: "/" })}
-              className="w-full p-3 bg-[#1a1a2e] text-white rounded-lg flex items-center justify-center gap-3 border border-transparent hover:border-[#9D68F7] transition ease-in-out duration-300 cursor-pointer"
+              className={`w-full p-3 text-white rounded-lg flex items-center justify-center gap-3 border border-transparent hover:border-[#9D68F7] transition ease-in-out duration-300 cursor-pointer ${
+                loading ? "opacity-60 cursor-not-allowed" : ""
+              } bg-[#1a1a2e]`}
+              disabled={loading}
             >
               <span>
                 <img
@@ -98,7 +102,10 @@ const SignUp: React.FC = () => {
             <button
               type="button"
               onClick={() => signIn("github", { callbackUrl: "/" })}
-              className="w-full p-3 bg-[#1a1a2e] text-white rounded-lg flex items-center justify-center gap-3 border border-transparent hover:border-[#9D68F7] transition ease-in-out duration-300 cursor-pointer"
+              className={`w-full p-3 text-white rounded-lg flex items-center justify-center gap-3 border border-transparent hover:border-[#9D68F7] transition ease-in-out duration-300 cursor-pointer ${
+                loading ? "opacity-60 cursor-not-allowed" : ""
+              } bg-[#1a1a2e]`}
+              disabled={loading}
             >
               <Image src={Github} alt="Github" className="w-5" />
               <span>Sign in with Github</span>
@@ -118,8 +125,10 @@ const SignUp: React.FC = () => {
               value={formData.name}
               onChange={handleChange}
               placeholder="Enter your Name"
+              autoComplete="name"
               className="w-full p-3 bg-[#1a1a2e] text-white rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7]"
               required
+              disabled={loading}
             />
 
             <input
@@ -128,8 +137,10 @@ const SignUp: React.FC = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Enter your email"
+              autoComplete="email"
               className="w-full p-3 bg-[#1a1a2e] text-white rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7]"
               required
+              disabled={loading}
             />
 
             <input
@@ -138,19 +149,24 @@ const SignUp: React.FC = () => {
               value={formData.password}
               onChange={handleChange}
               placeholder="Password"
+              autoComplete="new-password"
               className="w-full p-3 bg-[#1a1a2e] text-white rounded-lg focus:outline-none focus:ring-1 focus:ring-[#9D68F7] focus:border-[#9D68F7]"
               required
+              disabled={loading}
             />
 
             {error && (
-              <p className="text-red-400 text-sm font-light text-center">
+              <p
+                className="text-red-400 text-sm font-light text-center"
+                aria-live="polite"
+              >
                 {error}
               </p>
             )}
 
             <button
               type="submit"
-              className="w-full mt-2 p-3 bg-gradient-to-t from-[#925EEE] to-[#6A2ADB] cursor-pointer text-white font-semibold rounded-lg hover:from-[#7b4fc7] hover:to-[#5923b6] transition duration-300"
+              className="w-full mt-2 p-3 bg-gradient-to-t from-[#925EEE] to-[#6A2ADB] cursor-pointer text-white font-semibold rounded-lg hover:from-[#7b4fc7] hover:to-[#5923b6] transition duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
               disabled={loading}
             >
               {loading ? "Signing up..." : "Sign up"}

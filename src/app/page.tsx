@@ -8,9 +8,9 @@ import Swipper from "@/components/custom/Swipper";
 import Testimonials from "@/components/custom/Testimonials";
 import React from "react";
 
-const page = () => {
+const Page = () => {
   return (
-    <div className="">
+    <main>
       <Hero1 />
       <FeatureGrid />
       <Assistance />
@@ -19,8 +19,8 @@ const page = () => {
       <Support />
       <Blog />
       <Footer />
-    </div>
+    </main>
   );
 };
 
-export default page;
+export default Page;
