@@ -4,7 +4,7 @@ import React from "react";
 const page = () => {
   return (
     <>
-      <div>
+      <div className="min-h-screen flex flex-col px-10 overflow-x-auto">
         <SignIn />
       </div>
     </>

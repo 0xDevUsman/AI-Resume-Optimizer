@@ -10,7 +10,7 @@ import React from "react";
 
 const Page = () => {
   return (
-    <main>
+    <main className="min-h-screen flex flex-col px-10 overflow-x-hidden">
       <Hero1 />
       <FeatureGrid />
       <Assistance />
