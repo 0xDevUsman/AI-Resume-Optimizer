@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
+"use client";
 import React from "react";
 import { PiSparkleFill } from "react-icons/pi";
+import { motion } from "framer-motion";
 
 const testimonials = [
   {
@@ -94,48 +96,80 @@ const Testimonials = () => {
     <section
       id="testimonials"
       aria-label="User testimonials"
-      className="flex flex-col items-center justify-center mt-20 px-4"
+      className="flex flex-col items-center justify-center py-12 md:py-20 px-4 sm:px-6 bg-[#030014]"
     >
-      <div className="mb-6 px-4 py-2 gap-2 flex items-center justify-center border bg-gradient-to-t from-[#030014] to-[#241844] rounded-full shadow-lg relative w-40">
-        <PiSparkleFill className="text-xl md:text-sm text-[#D9C4FF]" />
-        <h2 className="text-base md:text-sm font-medium text-[#b47ef1]">
-          Wall of love
-        </h2>
-      </div>
+      {/* Header with animation */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6 }}
+        viewport={{ once: true }}
+        className="mb-8 px-4 py-2 gap-2 flex items-center justify-center border bg-gradient-to-t from-[#030014] to-[#241844] rounded-full shadow-lg w-fit mx-auto"
+      >
+        <PiSparkleFill className="text-[#D9C4FF]" />
+        <h2 className="text-sm font-medium text-[#b47ef1]">Wall of love</h2>
+      </motion.div>
 
-      <h1 className="text-2xl text-white font-bold text-center">
-        What Our User Says
-      </h1>
-      <p className="max-w-[714px] mx-auto mb-5 font-normal text-sm text-[#8D8395] my-6 text-center">
+      {/* Title with animation */}
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.6 }}
+        viewport={{ once: true }}
+        className="text-2xl sm:text-3xl md:text-4xl font-bold text-white text-center mb-2"
+      >
+        What Our Users Say
+      </motion.h1>
+
+      {/* Description with animation */}
+      <motion.p
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        transition={{ delay: 0.4, duration: 0.6 }}
+        viewport={{ once: true }}
+        className="max-w-2xl mx-auto text-xs sm:text-sm text-[#8D8395] my-4 md:my-6 text-center"
+      >
         Our AI writing tool is designed to empower you with exceptional writing
         capabilities, making the writing process more efficient, accurate, and
         enjoyable.
-      </p>
+      </motion.p>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-x-20 gap-y-10 text-white items-center justify-center w-full max-w-5xl p-8 rounded-xl shadow-lg mt-10 mx-auto">
-        {testimonials.map(({ name, username, description, avatar }) => (
-          <article
-            key={username}
-            className="flex flex-col p-6 w-80 bg-conic-180 from-[#03010a] via-[#170a44] to-[#040011] border-[0.5px] border-white/20 rounded-lg hover:shadow-lg transition-shadow duration-300"
-          >
-            <div className="flex items-center gap-4 mb-4 text-center">
-              <img
-                src={avatar}
-                alt={`Avatar of ${name}`}
-                loading="lazy"
-                className="w-12 h-12 rounded-full object-cover"
-              />
-              <div className="flex flex-col justify-center text-left">
-                <p className="text-sm font-semibold text-white">{name}</p>
-                <p className="text-xs text-gray-400">{username}</p>
-              </div>
-            </div>
+      {/* Testimonials grid with staggered animations */}
+      <div className="w-full max-w-6xl mx-auto mt-8 md:mt-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 px-4">
+          {testimonials.map(
+            ({ name, username, description, avatar }, index) => (
+              <motion.article
+                key={username}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                viewport={{ once: true, margin: "-50px" }}
+                whileHover={{ y: -5 }}
+                className="flex flex-col p-5 sm:p-6 bg-conic-180 from-[#03010a] via-[#170a44] to-[#040011] border border-white/10 rounded-xl hover:shadow-lg transition-all duration-300"
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <div className="relative w-12 h-12 rounded-full overflow-hidden">
+                    <img
+                      src={avatar}
+                      alt={`Avatar of ${name}`}
+                      className="object-cover"
+                      sizes="(max-width: 640px) 50px, 60px"
+                    />
+                  </div>
+                  <div className="flex flex-col justify-center">
+                    <p className="text-sm font-semibold text-white">{name}</p>
+                    <p className="text-xs text-gray-400">{username}</p>
+                  </div>
+                </div>
 
-            <blockquote className="text-sm text-[#cac2d1] mt-4 italic">
-              {description}
-            </blockquote>
-          </article>
-        ))}
+                <blockquote className="text-xs sm:text-sm text-[#cac2d1] mt-2 italic">
+                  &quot;{description}&quot;
+                </blockquote>
+              </motion.article>
+            )
+          )}
+        </div>
       </div>
     </section>
   );
