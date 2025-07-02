@@ -3,6 +3,7 @@
 import React from "react";
 import { PiSparkleFill } from "react-icons/pi";
 import { motion } from "framer-motion";
+import { FaArrowRight } from "react-icons/fa";
 
 const Hero1 = () => {
   return (
@@ -57,12 +58,12 @@ const Hero1 = () => {
         </motion.p>
 
         <motion.button
-          className="px-5 py-2 sm:px-6 sm:py-3 bg-gradient-to-t from-[#603ba0] to-[#4a18a0] hover:from-[#7b4fc7] hover:to-[#5923b6] text-white rounded-md transition duration-300 cursor-pointer text-sm sm:text-base"
+          className="px-5 py-2 flex items-center gap-x-2 sm:px-6 sm:py-3 bg-gradient-to-t from-[#603ba0] to-[#4a18a0] hover:from-[#7b4fc7] hover:to-[#5923b6] text-white rounded-md transition duration-300 cursor-pointer text-sm sm:text-base"
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.9, duration: 0.5 }}
         >
-          Start Your Free Trial
+          Get Started <FaArrowRight size={14} />
         </motion.button>
       </motion.div>
 

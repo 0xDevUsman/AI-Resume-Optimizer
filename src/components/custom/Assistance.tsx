@@ -44,7 +44,8 @@ const Assistance = () => {
             className="cursor-pointer px-4 py-2 rounded-full bg-gradient-to-t from-[#603ba0] to-[#4a18a0] hover:from-[#7b4fc7] hover:to-[#5923b6] text-sm mt-6 md:mt-10 text-white transition duration-300 w-full max-w-[12rem] flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-[#9D68F7]"
             aria-label="Learn more about AI writing tool"
           >
-            Learn more <FaArrowRightLong />
+            Get Started
+            <FaArrowRightLong />
           </motion.button>
         </motion.div>
 
