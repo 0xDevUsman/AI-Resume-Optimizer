@@ -66,12 +66,10 @@ export async function POST(request: NextRequest) {
     const enhancedText =
       completion.choices[0]?.message?.content || originalText;
 
-    // Load original PDF
     const pdfDoc = await PDFDocument.load(pdfBuffer);
     const pages = pdfDoc.getPages();
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
 
-    // We'll add enhanced text as a new page (since text extraction & layout preservation is hard)
     const newPage = pdfDoc.addPage();
     const { height } = newPage.getSize();
 
@@ -118,4 +116,4 @@ export async function POST(request: NextRequest) {
   }
 }
 
-// 
+// follow step by step rule to create now we have APi key for Ai 
