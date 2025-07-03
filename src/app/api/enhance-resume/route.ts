@@ -37,6 +37,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    
     const arrayBuffer = await file.arrayBuffer();
     const pdfBuffer = Buffer.from(arrayBuffer);
 
