@@ -4,8 +4,9 @@ import React from "react";
 import { PiSparkleFill } from "react-icons/pi";
 import { FaArrowRightLong } from "react-icons/fa6";
 import { motion } from "framer-motion";
-
+import { useRouter } from "next/navigation";
 const Assistance = () => {
+  const router = useRouter();
   return (
     <section className="relative w-full max-w-5xl mx-auto mt-10 md:mt-20 px-4 sm:px-6">
       {/* Main Card */}
@@ -38,6 +39,7 @@ const Assistance = () => {
             writing capabilities, making the writing process...
           </p>
           <motion.button
+            onClick={() => router.push("/optimizer")}
             type="button"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
