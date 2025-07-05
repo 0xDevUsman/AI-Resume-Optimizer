@@ -38,6 +38,7 @@ const Optimizer = () => {
     }
   };
 
+  console.log(uploadedFile);
   const handleDragOver = (event: React.DragEvent) => {
     event.preventDefault();
   };
@@ -56,7 +57,7 @@ const Optimizer = () => {
 
   const handleEnhance = () => {
     setIsProcessing(true);
-    setShowEnhancedPDF(false); // hide preview during process
+    setShowEnhancedPDF(false);
     setProgress(0);
 
     const interval = setInterval(() => {
@@ -66,7 +67,7 @@ const Optimizer = () => {
           setIsProcessing(false);
           setShowResults(true);
           setShowEnhancedPDF(true);
-          setHasEnhancedBefore(true); // mark enhancement done
+          setHasEnhancedBefore(true);
           return 100;
         }
         return prev + 10;
