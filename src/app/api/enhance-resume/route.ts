@@ -1,42 +1,31 @@
-import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { NextRequest, NextResponse } from "next/server";
 import PdfParse from "pdf-parse";
+import { PDFDocument } from "pdf-lib";
 import OpenAI from "openai";
 
 const openai = new OpenAI({
   baseURL: "https://openrouter.ai/api/v1",
-  apiKey: process.env.OPENROUTER_API_KEY,
+  apiKey: process.env.OPENROUTER_API_KEY!,
   defaultHeaders: {
-    "HTTP-Referer": "http://localhost:3000", // Your site URL
-    "X-Title": "AI Resume Optimiser", // Your site title
+    "HTTP-Referer": "http://localhost:3000",
+    "X-Title": "AI Resume Optimiser",
   },
 });
 
-export async function GET() {
+export async function POST(req: NextRequest) {
   try {
-    const filePath1 = path.join(
-      process.cwd(),
-      "src",
-      "assets",
-      "Usman-ali.pdf"
-    );
-    const filePath2 = path.resolve("./src/assets/Usman-ali.pdf");
+    const formData = await req.formData();
+    const file = formData.get("file") as File;
 
-    const finalPath = fs.existsSync(filePath1)
-      ? filePath1
-      : fs.existsSync(filePath2)
-      ? filePath2
-      : null;
-
-    if (!finalPath) {
-      throw new Error(
-        `PDF not found at either:\n- ${filePath1}\n- ${filePath2}`
-      );
+    if (!file || file.type !== "application/pdf") {
+      return NextResponse.json({ error: "Invalid PDF file" }, { status: 400 });
     }
 
-    const pdfBuffer = fs.readFileSync(finalPath);
-    const data = await PdfParse(pdfBuffer);
+    const arrayBuffer = await file.arrayBuffer();
+    const buffer = Buffer.from(arrayBuffer);
+
+    const parsed = await PdfParse(buffer);
+    const resumeText = parsed.text;
 
     const promptText = `
 You are an expert prompt engineer specializing in crafting high-impact AI prompts.
@@ -61,8 +50,9 @@ identified_issues (array of strings): A list of specific problems or weaknesses 
 
 enhancement_recommendations (array of strings): Clear, actionable suggestions to improve the prompt’s effectiveness, clarity, or user instruction.
 
+
 Resume text:
-${data.text}
+${resumeText}
 `;
 
     const completion = await openai.chat.completions.create({
@@ -73,43 +63,51 @@ ${data.text}
           content: [{ type: "text", text: promptText }],
         },
       ],
-      max_tokens: 4000, // set your max tokens here, e.g., 4000
+      max_tokens: 4000,
     });
 
-    const aiResponse = completion.choices?.[0]?.message?.content || "";
+    const raw = completion.choices?.[0]?.message?.content || "";
 
-    console.log("Raw AI response:", JSON.stringify(aiResponse));
+    const cleanedResponse = raw
+      .replace(/^```json\s*/, "")
+      .replace(/```$/, "")
+      .trim();
 
-    let enhancements = {};
-    try {
-      // Strip triple backticks and "json" from the AI response before parsing
-      const cleanedResponse = aiResponse
-        .replace(/^```json\s*/, "")
-        .replace(/```$/, "")
-        .trim();
+    const enhancements = JSON.parse(cleanedResponse);
+    const { corrected_text } = enhancements;
 
-      enhancements = JSON.parse(cleanedResponse);
-    } catch (err) {
-      console.error("Failed to parse AI response JSON:", err);
-      enhancements = {
-        raw: aiResponse
-          .replace(/^```json\s*/, "")
-          .replace(/```$/, "")
-          .trim(),
-      };
-    }
+    const pdfDoc = await PDFDocument.create();
+    const page = pdfDoc.addPage();
+    const fontSize = 12;
 
-    return NextResponse.json({
-      success: true,
-      extractedText: data.text,
-      enhancements,
+    const lines = corrected_text.split("\n").filter(Boolean);
+    const text = lines.join("\n");
+
+    page.drawText(text.slice(0, 5000), {
+      x: 50,
+      y: page.getHeight() - 50,
+      size: fontSize,
+      maxWidth: page.getWidth() - 100,
+      lineHeight: 14,
+    });
+
+    const newPdfBytes = await pdfDoc.save();
+    const pdfBuffer = Buffer.from(newPdfBytes);
+
+    return new NextResponse(pdfBuffer, {
+      status: 200,
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": "attachment; filename=enhanced-resume.pdf",
+      },
     });
   } catch (error) {
+    console.error("Error:", (error as Error).message);
     return NextResponse.json(
       {
         success: false,
         error: (error as Error).message,
-        suggestion: "Check PDF path and OpenRouter API Key in .env",
+        suggestion: "Ensure OpenRouter key is valid and file is PDF",
       },
       { status: 500 }
     );

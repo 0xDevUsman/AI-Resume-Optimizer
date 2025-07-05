@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useState } from "react";
@@ -15,30 +16,23 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
-import dummyEnhancedPDF from "@/assets/enhanced-resume.png";
 
 const Optimizer = () => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
-  const [fileURL, setFileURL] = useState<string | null>(null);
+  const [enhancedBlobURL, setEnhancedBlobURL] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showResults, setShowResults] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [showEnhancedPDF, setShowEnhancedPDF] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [hasEnhancedBefore, setHasEnhancedBefore] = useState(false);
-
-  console.log(fileURL);
-  console.log(showResults);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setUploadedFile(file);
-      setFileURL(URL.createObjectURL(file));
     }
   };
 
-  console.log(uploadedFile);
   const handleDragOver = (event: React.DragEvent) => {
     event.preventDefault();
   };
@@ -46,38 +40,59 @@ const Optimizer = () => {
   const handleDrop = (event: React.DragEvent) => {
     event.preventDefault();
     const file = event.dataTransfer.files[0];
-    if (
-      file &&
-      (file.type === "application/pdf" || file.type.includes("document"))
-    ) {
+    if (file && file.type === "application/pdf") {
       setUploadedFile(file);
-      setFileURL(URL.createObjectURL(file));
     }
   };
 
-  const handleEnhance = () => {
+  const handleEnhance = async () => {
+    if (!uploadedFile) return;
+
     setIsProcessing(true);
-    setShowEnhancedPDF(false);
     setProgress(0);
+    setEnhancedBlobURL(null);
 
     const interval = setInterval(() => {
-      setProgress((prev: number) => {
-        if (prev >= 100) {
+      setProgress((prev) => {
+        if (prev >= 90) {
           clearInterval(interval);
-          setIsProcessing(false);
-          setShowResults(true);
-          setShowEnhancedPDF(true);
-          setHasEnhancedBefore(true);
-          return 100;
+          return prev;
         }
         return prev + 10;
       });
     }, 300);
+
+    const formData = new FormData();
+    formData.append("file", uploadedFile);
+
+    try {
+      const res = await fetch("/api/enhance-resume", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error("Failed to optimize resume");
+
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+
+      setEnhancedBlobURL(url);
+      setShowResults(true);
+      setHasEnhancedBefore(true);
+    } catch (error) {
+      console.error("Enhancement failed:", error);
+      alert("Something went wrong. Please try again.");
+    } finally {
+      clearInterval(interval);
+      setProgress(100);
+      setIsProcessing(false);
+    }
   };
 
   return (
     <main className="min-h-screen flex flex-col w-full items-center">
-      <div className="flex-1 flex flex-col w-full max-w-[1440px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10">
+      {/* Header */}
+      <div className="flex-1 flex flex-col w-full max-w-[1440px] mx-auto px-4">
         <h1 className="text-white font-medium text-6xl pt-30">
           Optimize Your Resume with AI
         </h1>
@@ -87,6 +102,7 @@ const Optimizer = () => {
         </p>
       </div>
 
+      {/* Upload and Enhance UI */}
       <div className="flex flex-col lg:flex-row justify-center gap-10 w-full px-4 py-8">
         <div className="space-y-6 w-full max-w-xl">
           <Card className="bg-gray-900/50 border-gray-800/50 backdrop-blur-sm">
@@ -102,7 +118,7 @@ const Optimizer = () => {
                     <Button
                       onClick={handleEnhance}
                       disabled={isProcessing}
-                      className="bg-gradient-to-r from-[#603ba0] to-[#4a18a0] hover:from-[#7b4fc7] hover:to-[#5923b6] text-white px-6 py-2 text-sm rounded-lg shadow-lg hover:shadow-purple-500/25 transition-all duration-300 disabled:opacity-50 cursor-pointer"
+                      className="bg-gradient-to-r from-[#603ba0] to-[#4a18a0] hover:from-[#7b4fc7] hover:to-[#5923b6] text-white px-6 py-2 text-sm rounded-lg shadow-lg transition-all duration-300 disabled:opacity-50"
                     >
                       {isProcessing ? (
                         <>
@@ -112,7 +128,7 @@ const Optimizer = () => {
                       ) : hasEnhancedBefore ? (
                         <>
                           <Sparkles className="w-5 h-5 mr-2" />
-                          Enhance with AI Again
+                          Enhance Again
                         </>
                       ) : (
                         <>
@@ -126,7 +142,7 @@ const Optimizer = () => {
                       <div className="mt-2 space-y-1">
                         <Progress value={progress} className="w-40" />
                         <p className="text-xs text-gray-400">
-                          Analyzing... {progress}%
+                          Processing... {progress}%
                         </p>
                       </div>
                     )}
@@ -137,7 +153,7 @@ const Optimizer = () => {
 
             <CardContent>
               <div
-                className="border-2 border-dashed border-gray-700 rounded-lg p-8 text-center hover:border-purple-500/50 transition-colors cursor-pointer"
+                className="border-2 border-dashed border-gray-700 rounded-lg p-8 text-center hover:border-purple-500/50 cursor-pointer"
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={() => document.getElementById("file-upload")?.click()}
@@ -145,11 +161,10 @@ const Optimizer = () => {
                 <input
                   id="file-upload"
                   type="file"
-                  accept=".pdf,.doc,.docx"
+                  accept=".pdf"
                   onChange={handleFileUpload}
                   className="hidden"
                 />
-
                 {uploadedFile ? (
                   <div className="space-y-4">
                     <FileText className="w-8 h-8 text-green-400 mx-auto" />
@@ -159,15 +174,6 @@ const Optimizer = () => {
                     <p className="text-sm text-gray-400">
                       File uploaded successfully
                     </p>
-
-                    {/* ✅ Resume preview */}
-                    <div className="mt-4">
-                      <Image
-                        src={dummyEnhancedPDF}
-                        alt="Uploaded Resume Preview"
-                        className="rounded-lg mx-auto w-full max-w-[300px]"
-                      />
-                    </div>
                   </div>
                 ) : (
                   <div className="space-y-2">
@@ -175,11 +181,9 @@ const Optimizer = () => {
                     <p className="text-gray-300">
                       Drag and drop your resume here
                     </p>
-                    <p className="text-sm text-gray-400">
-                      or click to browse files
-                    </p>
+                    <p className="text-sm text-gray-400">or click to browse</p>
                     <p className="text-xs text-gray-500">
-                      Supports PDF, DOC, DOCX (Max 10MB)
+                      PDF format only, max 10MB
                     </p>
                   </div>
                 )}
@@ -188,19 +192,15 @@ const Optimizer = () => {
           </Card>
         </div>
 
-        {/* Right Side Section */}
-        <div className="space-y-6 max-w-2xl w-full">
-          {showEnhancedPDF && (
+        {/* Result View */}
+        {enhancedBlobURL && (
+          <div className="space-y-6 max-w-2xl w-full">
             <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-4 shadow-lg relative group">
-              {/* Image Preview */}
               <div className="relative cursor-zoom-in rounded-lg overflow-hidden">
-                <Image
-                  src={dummyEnhancedPDF}
-                  alt="Enhanced Resume"
-                  className="w-full rounded-lg transition-transform duration-300 group-hover:scale-105"
-                  onClick={() => setShowModal(true)}
+                <iframe
+                  src={enhancedBlobURL}
+                  className="w-full h-[500px] rounded-lg border"
                 />
-                {/* Zoom Icon */}
                 <div className="absolute top-2 right-2 p-2 bg-white/20 backdrop-blur-md rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
                   <ZoomIn className="text-white w-5 h-5" />
                 </div>
@@ -208,31 +208,29 @@ const Optimizer = () => {
 
               {/* Download Button */}
               <div className="flex justify-end mt-4">
-                <Button className="bg-gradient-to-r from-[#603ba0] to-[#4a18a0] hover:from-[#7b4fc7] hover:to-[#5923b6] text-white px-4 py-2 text-sm rounded-lg shadow-md transition-all cursor-pointer">
-                  <Download className="w-4 h-4 mr-2" />
-                  Download as PDF
-                </Button>
+                <a href={enhancedBlobURL} download="Enhanced-Resume.pdf">
+                  <Button className="bg-gradient-to-r from-[#603ba0] to-[#4a18a0] text-white px-4 py-2 text-sm rounded-lg shadow-md transition-all">
+                    <Download className="w-4 h-4 mr-2" />
+                    Download as PDF
+                  </Button>
+                </a>
               </div>
             </div>
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
-      {showModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm transition-all">
-          <div className="relative">
-            <Image
-              src={dummyEnhancedPDF}
-              alt="Enhanced PDF Fullscreen"
-              className="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl animate-fade-in"
-            />
+      {/* Modal Zoom Preview */}
+      {showModal && enhancedBlobURL && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+          <div className="relative bg-white p-4 rounded-lg max-w-[90vw] max-h-[90vh]">
+            <iframe src={enhancedBlobURL} className="w-full h-[80vh] rounded" />
             <button
               onClick={() => setShowModal(false)}
-              className="absolute top-2 right-2 p-2 rounded-full bg-black/70 hover:bg-black/90 transition-colors"
+              className="absolute top-2 right-2 p-2 rounded-full bg-black/70 hover:bg-black/90"
             >
               <X className="w-5 h-5 text-white" />
             </button>
-            <div className="mt-4 text-right"></div>
           </div>
         </div>
       )}
