@@ -1,120 +1,102 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { NextRequest, NextResponse } from "next/server";
-import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
-import { OpenAI } from "openai";
-import pdfParse from "pdf-parse";
-import { text } from "stream/consumers";
+import { NextResponse } from "next/server";
+import fs from "fs";
+import path from "path";
+import PdfParse from "pdf-parse";
+import OpenAI from "openai";
 
 const openai = new OpenAI({
-  apiKey: process.env.OPEN_API_KEY!, // or OPENAI_API_KEY
-  baseURL: "https://openrouter.ai/api/v1", // Only if using OpenRouter
-  // defaultHeaders: {
-  //   "HTTP-Referer": "https://yourdomain.com",
-  //   "X-Title": "Your App Name",
-  // },
+  baseURL: "https://openrouter.ai/api/v1",
+  apiKey: process.env.OPENROUTER_API_KEY,
+  defaultHeaders: {
+    "HTTP-Referer": "http://localhost:3000", // Your site URL
+    "X-Title": "AI Resume Optimiser", // Your site title
+  },
 });
 
-// Extract text from PDF buffer using pdf-parse (Node.js only)
-async function extractTextFromPDF(pdfBuffer: Buffer): Promise<string> {
+export async function GET() {
   try {
-    const data = await pdfParse(pdfBuffer);
-    return data.text || "";
-  } catch (err) {
-    console.error("PDF text extraction error:", err);
-    throw new Error("Failed to extract text from PDF");
-  }
-}
+    const filePath1 = path.join(
+      process.cwd(),
+      "src",
+      "assets",
+      "Usman-ali.pdf"
+    );
+    const filePath2 = path.resolve("./src/assets/Usman-ali.pdf");
 
-export async function POST(request: NextRequest) {
-  try {
-    const formData = await request.formData();
-    const file = formData.get("resume") as File;
+    const finalPath = fs.existsSync(filePath1)
+      ? filePath1
+      : fs.existsSync(filePath2)
+      ? filePath2
+      : null;
 
-    if (!file) {
-      return NextResponse.json(
-        { error: "No resume file uploaded" },
-        { status: 400 }
+    if (!finalPath) {
+      throw new Error(
+        `PDF not found at either:\n- ${filePath1}\n- ${filePath2}`
       );
     }
 
-    
-    const arrayBuffer = await file.arrayBuffer();
-    const pdfBuffer = Buffer.from(arrayBuffer);
+    const pdfBuffer = fs.readFileSync(finalPath);
+    const data = await PdfParse(pdfBuffer);
 
-    // Extract actual text from PDF
-    const originalText = await extractTextFromPDF(pdfBuffer);
+    const promptText = `
+You are a resume expert.
+Analyze and improve the following resume text for grammar, keywords, and formatting suggestions.
+Respond ONLY with a valid JSON object with three keys:
+- corrected_text (string)
+- keywords_added (array of strings)
+- formatting_suggestions (array of strings)
 
-    // Prepare prompt
-    const prompt = `You are a professional resume editor. Improve the tone, grammar, and professionalism of the following resume text. Do NOT change structure, layout, or personal info:\n\n${originalText}`;
+Resume text:
+${data.text}
+`;
 
-    // Call AI to enhance text
     const completion = await openai.chat.completions.create({
-      model: "openai/codex-mini", // Use model you have access to
+      model: "openai/codex-mini",
       messages: [
         {
           role: "user",
-          content: [
-            {
-              type: "text",
-              text: "hello, how are u",
-            },
-          ],
+          content: [{ type: "text", text: promptText }],
         },
       ],
-      max_tokens: 2000,
-    });
-    console.log(completion.choices[0].message);
-    const enhancedText =
-      completion.choices[0]?.message?.content || originalText;
-
-    const pdfDoc = await PDFDocument.load(pdfBuffer);
-    const pages = pdfDoc.getPages();
-    const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
-
-    const newPage = pdfDoc.addPage();
-    const { height } = newPage.getSize();
-
-    newPage.drawText("Enhanced Resume", {
-      x: 50,
-      y: height - 50,
-      size: 18,
-      font,
-      color: rgb(0, 0, 0),
+      max_tokens: 4000, // set your max tokens here, e.g., 4000
     });
 
-    const lines = enhancedText.split("\n");
-    let y = height - 80;
-    for (const line of lines) {
-      if (y < 40) break;
-      newPage.drawText(line.trim().slice(0, 100), {
-        x: 50,
-        y,
-        size: 12,
-        font,
-        color: rgb(0, 0, 0),
-      });
-      y -= 16;
+    const aiResponse = completion.choices?.[0]?.message?.content || "";
+
+    console.log("Raw AI response:", JSON.stringify(aiResponse));
+
+    let enhancements = {};
+    try {
+      // Strip triple backticks and "json" from the AI response before parsing
+      const cleanedResponse = aiResponse
+        .replace(/^```json\s*/, "")
+        .replace(/```$/, "")
+        .trim();
+
+      enhancements = JSON.parse(cleanedResponse);
+    } catch (err) {
+      console.error("Failed to parse AI response JSON:", err);
+      enhancements = {
+        raw: aiResponse
+          .replace(/^```json\s*/, "")
+          .replace(/```$/, "")
+          .trim(),
+      };
     }
 
-    const finalPdfBytes = await pdfDoc.save();
-
-    return new NextResponse(Buffer.from(finalPdfBytes), {
-      status: 200,
-      headers: {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": 'attachment; filename="Enhanced_Resume.pdf"',
-      },
+    return NextResponse.json({
+      success: true,
+      extractedText: data.text,
+      enhancements,
     });
   } catch (error) {
-    console.error("Error enhancing resume:", error);
     return NextResponse.json(
       {
-        error: "Failed to enhance resume",
-        details: error instanceof Error ? error.message : String(error),
+        success: false,
+        error: (error as Error).message,
+        suggestion: "Check PDF path and OpenRouter API Key in .env",
       },
       { status: 500 }
     );
   }
 }
-
-// follow step by step rule to create now we have APi key for Ai 
