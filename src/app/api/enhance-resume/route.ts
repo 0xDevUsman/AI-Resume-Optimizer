@@ -56,24 +56,25 @@ ${resumeText}
 `;
 
     const completion = await openai.chat.completions.create({
-      model: "openai/codex-mini",
+      model: "deepseek/deepseek-r1-0528:free",
       messages: [
         {
           role: "user",
           content: [{ type: "text", text: promptText }],
         },
       ],
-      max_tokens: 4000,
+      max_tokens: 3000,
     });
 
     const raw = completion.choices?.[0]?.message?.content || "";
-
+    console.log(raw);
     const cleanedResponse = raw
       .replace(/^```json\s*/, "")
       .replace(/```$/, "")
       .trim();
 
     const enhancements = JSON.parse(cleanedResponse);
+    console.log(enhancements);
     const { corrected_text } = enhancements;
 
     const pdfDoc = await PDFDocument.create();
