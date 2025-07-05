@@ -39,12 +39,27 @@ export async function GET() {
     const data = await PdfParse(pdfBuffer);
 
     const promptText = `
-You are a resume expert.
-Analyze and improve the following resume text for grammar, keywords, and formatting suggestions.
-Respond ONLY with a valid JSON object with three keys:
-- corrected_text (string)
-- keywords_added (array of strings)
-- formatting_suggestions (array of strings)
+You are an expert prompt engineer specializing in crafting high-impact AI prompts.
+Analyze the given prompt text thoroughly for the following aspects:
+
+Clarity and precision of language
+
+Completeness and contextual sufficiency
+
+Ambiguities or potential misunderstandings
+
+Use of best practices in prompt design (e.g., explicit instructions, format constraints)
+
+Optimization for AI performance and response quality
+
+Provide a detailed evaluation and suggest concrete improvements.
+Respond ONLY with a valid JSON object containing these keys:
+
+improved_prompt (string): The rewritten prompt text with all recommended enhancements applied.
+
+identified_issues (array of strings): A list of specific problems or weaknesses found in the original prompt.
+
+enhancement_recommendations (array of strings): Clear, actionable suggestions to improve the prompt’s effectiveness, clarity, or user instruction.
 
 Resume text:
 ${data.text}
