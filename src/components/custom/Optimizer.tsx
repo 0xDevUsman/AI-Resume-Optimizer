@@ -83,11 +83,11 @@ const Optimizer = () => {
 
   return (
     <main className="min-h-screen flex flex-col w-full items-center px-4 py-10">
-      <div className="w-full max-w-6xl text-center space-y-4 mb-8">
+      <div className="w-full max-w-7xl text-start mt-20 space-y-4 mb-8">
         <h1 className="text-white text-4xl sm:text-5xl font-bold">
           Optimize Your Resume with AI
         </h1>
-        <p className="text-[#aaa2b1] text-sm sm:text-base max-w-2xl mx-auto">
+        <p className="text-[#aaa2b1] text-sm sm:text-base max-w-7xl mx-auto">
           Upload your resume and let our AI enhance it with industry-specific
           keywords, grammar improvements, and formatting optimizations.
         </p>
@@ -96,7 +96,7 @@ const Optimizer = () => {
       {/* Note Section */}
       <div
         role="alert"
-        className="w-full max-w-3xl bg-yellow-900/10 border border-yellow-600 rounded-xl p-5 mb-10 shadow-md"
+        className="w-full max-w-7xl bg-yellow-900/10 border border-yellow-600 rounded-xl p-5 mb-10 shadow-md"
       >
         <div className="flex items-start gap-3">
           <IoMdAlert className="w-6 h-6 mt-1 text-yellow-400 flex-shrink-0" />
@@ -104,7 +104,7 @@ const Optimizer = () => {
             <p className="font-semibold text-yellow-200">Important Note:</p>
             <ul className="list-disc list-inside space-y-1 text-yellow-100">
               <li>
-                This version uses mock AI output due to lack of paid API access.
+                This version uses dummy output due to lack of paid API access.
               </li>
               <li>
                 The resume preview is a placeholder image for UI demonstration.
@@ -126,7 +126,7 @@ const Optimizer = () => {
         </div>
       </div>
 
-      <div className="flex flex-col lg:flex-row justify-center items-start gap-10 w-full max-w-6xl">
+      <div className="flex flex-col lg:flex-row justify-center items-start gap-10 w-full max-w-7xl">
         {/* Upload + Button */}
         <div className="space-y-6 w-full max-w-xl">
           <Card className="bg-gray-900/50 border-gray-800/50 backdrop-blur-sm">
@@ -142,7 +142,7 @@ const Optimizer = () => {
                     <Button
                       onClick={handleEnhance}
                       disabled={isProcessing}
-                      className="bg-gradient-to-r from-[#603ba0] to-[#4a18a0] hover:from-[#7b4fc7] hover:to-[#5923b6] text-white px-6 py-2 text-sm rounded-lg shadow-lg transition-all duration-300 disabled:opacity-50"
+                      className="bg-gradient-to-r from-[#603ba0] to-[#4a18a0] hover:from-[#7b4fc7] hover:to-[#5923b6] text-white px-6 py-2 text-sm rounded-lg shadow-lg transition-all duration-300 disabled:opacity-50 cursor-pointer"
                     >
                       {isProcessing ? (
                         <>
@@ -151,7 +151,7 @@ const Optimizer = () => {
                         </>
                       ) : hasEnhancedBefore ? (
                         <>
-                          <Sparkles className="w-5 h-5 mr-2" />
+                          <Sparkles className="w-5 h-5 mr-2 " />
                           Enhance Again
                         </>
                       ) : (
@@ -234,7 +234,7 @@ const Optimizer = () => {
 
             <div className="flex justify-end">
               <a href={enhancedBlobURL ?? "#"} download="Enhanced-Resume.pdf">
-                <Button className="bg-gradient-to-r from-[#603ba0] to-[#4a18a0] text-white px-4 py-2 text-sm rounded-lg shadow-md hover:from-[#7b4fc7] hover:to-[#5923b6] transition-all">
+                <Button className="bg-gradient-to-r from-[#603ba0] to-[#4a18a0] text-white px-4 py-2 text-sm rounded-lg shadow-md hover:from-[#7b4fc7] hover:to-[#5923b6] transition-all cursor-pointer">
                   <Download className="w-4 h-4 mr-2" />
                   Download as PDF
                 </Button>
