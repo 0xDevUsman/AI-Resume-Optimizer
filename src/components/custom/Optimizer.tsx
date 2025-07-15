@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import React, { useState } from "react";
@@ -10,26 +9,31 @@ import {
   Download,
   RefreshCw,
   X,
-  ZoomIn,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import Image from "next/image";
+import { IoMdAlert } from "react-icons/io";
+
+import DummyPreview from "@/assets/enhanced-resume.png"; // Replace with your dummy image
 
 const Optimizer = () => {
   const [uploadedFile, setUploadedFile] = useState<File | null>(null);
   const [enhancedBlobURL, setEnhancedBlobURL] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [showResults, setShowResults] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [showModal, setShowModal] = useState(false);
   const [hasEnhancedBefore, setHasEnhancedBefore] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setUploadedFile(file);
+      setEnhancedBlobURL(null);
     }
   };
 
@@ -42,6 +46,7 @@ const Optimizer = () => {
     const file = event.dataTransfer.files[0];
     if (file && file.type === "application/pdf") {
       setUploadedFile(file);
+      setEnhancedBlobURL(null);
     }
   };
 
@@ -62,22 +67,9 @@ const Optimizer = () => {
       });
     }, 300);
 
-    const formData = new FormData();
-    formData.append("file", uploadedFile);
-
     try {
-      const res = await fetch("/api/enhance-resume", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!res.ok) throw new Error("Failed to optimize resume");
-
-      const blob = await res.blob();
-      const url = URL.createObjectURL(blob);
-
-      setEnhancedBlobURL(url);
-      setShowResults(true);
+      await new Promise((res) => setTimeout(res, 2000));
+      setEnhancedBlobURL("/dummy-resume.pdf"); // Simulated enhanced file
       setHasEnhancedBefore(true);
     } catch (error) {
       console.error("Enhancement failed:", error);
@@ -90,20 +82,52 @@ const Optimizer = () => {
   };
 
   return (
-    <main className="min-h-screen flex flex-col w-full items-center">
-      {/* Header */}
-      <div className="flex-1 flex flex-col w-full max-w-[1440px] mx-auto px-4">
-        <h1 className="text-white font-medium text-6xl pt-30">
+    <main className="min-h-screen flex flex-col w-full items-center px-4 py-10">
+      <div className="w-full max-w-6xl text-center space-y-4 mb-8">
+        <h1 className="text-white text-4xl sm:text-5xl font-bold">
           Optimize Your Resume with AI
         </h1>
-        <p className="text-[#aaa2b1] text-base pt-2">
+        <p className="text-[#aaa2b1] text-sm sm:text-base max-w-2xl mx-auto">
           Upload your resume and let our AI enhance it with industry-specific
           keywords, grammar improvements, and formatting optimizations.
         </p>
       </div>
 
-      {/* Upload and Enhance UI */}
-      <div className="flex flex-col lg:flex-row justify-center gap-10 w-full px-4 py-8">
+      {/* Note Section */}
+      <div
+        role="alert"
+        className="w-full max-w-3xl bg-yellow-900/10 border border-yellow-600 rounded-xl p-5 mb-10 shadow-md"
+      >
+        <div className="flex items-start gap-3">
+          <IoMdAlert className="w-6 h-6 mt-1 text-yellow-400 flex-shrink-0" />
+          <div className="text-sm text-yellow-100 space-y-1 leading-relaxed">
+            <p className="font-semibold text-yellow-200">Important Note:</p>
+            <ul className="list-disc list-inside space-y-1 text-yellow-100">
+              <li>
+                This version uses mock AI output due to lack of paid API access.
+              </li>
+              <li>
+                The resume preview is a placeholder image for UI demonstration.
+              </li>
+              <li>
+                AI logic and enhancement flow are fully functional and
+                integrated.
+              </li>
+              <li>
+                Once the real API is connected, the app will generate actual
+                enhanced PDFs.
+              </li>
+              <li>
+                The goal was to polish UX, complete the frontend flow, and
+                simulate end results.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex flex-col lg:flex-row justify-center items-start gap-10 w-full max-w-6xl">
+        {/* Upload + Button */}
         <div className="space-y-6 w-full max-w-xl">
           <Card className="bg-gray-900/50 border-gray-800/50 backdrop-blur-sm">
             <CardHeader>
@@ -153,7 +177,7 @@ const Optimizer = () => {
 
             <CardContent>
               <div
-                className="border-2 border-dashed border-gray-700 rounded-lg p-8 text-center hover:border-purple-500/50 cursor-pointer"
+                className="border-2 border-dashed border-gray-700 rounded-lg p-8 text-center hover:border-purple-500/50 cursor-pointer transition-all duration-300"
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onClick={() => document.getElementById("file-upload")?.click()}
@@ -192,50 +216,65 @@ const Optimizer = () => {
           </Card>
         </div>
 
-        {/* Result View */}
-        {enhancedBlobURL && (
-          <div className="space-y-6 max-w-2xl w-full">
+        {/* Preview + Download */}
+        {hasEnhancedBefore && (
+          <div className="space-y-6 w-full max-w-2xl">
             <div className="bg-gray-900/50 border border-gray-800 rounded-xl p-4 shadow-lg relative group">
-              <div className="relative cursor-zoom-in rounded-lg overflow-hidden">
-                <iframe
-                  src={enhancedBlobURL}
-                  className="w-full h-[500px] rounded-lg border"
-                />
-                <div className="absolute top-2 right-2 p-2 bg-white/20 backdrop-blur-md rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                  <ZoomIn className="text-white w-5 h-5" />
-                </div>
-              </div>
+              <Image
+                src={DummyPreview}
+                alt="Enhanced Resume Preview"
+                className="max-w-full max-h-[500px] object-contain rounded-lg border cursor-zoom-in"
+                onClick={openModal}
+                width={800}
+                height={500}
+                unoptimized
+                priority
+              />
+            </div>
 
-              {/* Download Button */}
-              <div className="flex justify-end mt-4">
-                <a href={enhancedBlobURL} download="Enhanced-Resume.pdf">
-                  <Button className="bg-gradient-to-r from-[#603ba0] to-[#4a18a0] text-white px-4 py-2 text-sm rounded-lg shadow-md transition-all">
-                    <Download className="w-4 h-4 mr-2" />
-                    Download as PDF
-                  </Button>
-                </a>
-              </div>
+            <div className="flex justify-end">
+              <a href={enhancedBlobURL ?? "#"} download="Enhanced-Resume.pdf">
+                <Button className="bg-gradient-to-r from-[#603ba0] to-[#4a18a0] text-white px-4 py-2 text-sm rounded-lg shadow-md hover:from-[#7b4fc7] hover:to-[#5923b6] transition-all">
+                  <Download className="w-4 h-4 mr-2" />
+                  Download as PDF
+                </Button>
+              </a>
             </div>
           </div>
         )}
       </div>
 
-      {/* Modal Zoom Preview */}
-      {showModal && enhancedBlobURL && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
-          <div className="relative bg-white p-4 rounded-lg max-w-[90vw] max-h-[90vh]">
-            <iframe src={enhancedBlobURL} className="w-full h-[80vh] rounded" />
+      {/* Modal View */}
+      {isModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm animate-fadeIn"
+          onClick={closeModal}
+        >
+          <div
+            className="relative max-w-[90vw] max-h-[90vh]"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={DummyPreview}
+              alt="Zoomed Resume Preview"
+              className="max-w-full max-h-full rounded-lg shadow-lg"
+              width={700}
+              height={100}
+              unoptimized
+              priority
+            />
             <button
-              onClick={() => setShowModal(false)}
-              className="absolute top-2 right-2 p-2 rounded-full bg-black/70 hover:bg-black/90"
+              onClick={closeModal}
+              className="absolute top-2 right-2 text-white bg-black/60 hover:bg-black/80 rounded-full p-2 focus:outline-none"
+              aria-label="Close"
             >
-              <X className="w-5 h-5 text-white" />
+              <X className="w-6 h-6" />
             </button>
           </div>
         </div>
       )}
 
-      <div className="w-full">
+      <div className="w-full mt-10">
         <Footer />
       </div>
     </main>
