@@ -33,8 +33,9 @@ App Screenshot
 
 ---
 ## ⚠️ Note
-## Currently, the AI API is mocked due to unreliable results from the OpenRouter integration. Once a stable API is available, backend integration will be completed.
-
+```
+Currently, the AI API is mocked due to unreliable results from the OpenRouter integration. Once a stable API is available, backend integration will be completed.
+```
 ## 🤝 Credits
 - ✨ Built with ❤️ by Usman Ali.
 - 💡 Inspired by the need to make resume optimisation easier for job seekers.
