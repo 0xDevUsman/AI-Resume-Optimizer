@@ -18,7 +18,7 @@ Optimize your resume in seconds using AI! Upload your existing PDF resume, let t
 
 ## 🛠 Tech Stack
 
-- **Frontend:** Next.js (App Router), Tailwind CSS, TypeScript
+- **Frontend:** Next.js (App Router), Tailwind CSS, TypeScript, ShadCN UI
 - **AI Integration:** OpenAI via OpenRouter API (mocked currently)
 - **PDF Handling:** PDF-lib
 - **UI:** File Upload, Zoomable Preview, Modal with Blur and Animation
