@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🧠 AI Resume Optimizer – CVNinja
 
-## Getting Started
+Optimize your resume in seconds using AI! Upload your existing PDF resume, let the AI enhance your content, and download a polished version with the same design.
 
-First, run the development server:
+🚀 [Live Demo](https://cvninja.vercel.app) | 💻 [GitHub Repo](https://github.com/0xDevUsman/AI-Resume-Optimizer.git)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+---
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 📌 Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- 🔍 Upload your resume in PDF format
+- 🤖 AI-enhanced content using OpenAI (mocked for now)
+- 📄 Maintains original design using PDF-lib
+- ⚡ Smooth UX with instant preview and download
+- 🎨 Fully responsive frontend built with Tailwind CSS
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠 Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Frontend:** Next.js (App Router), Tailwind CSS, TypeScript
+- **AI Integration:** OpenAI via OpenRouter API (mocked currently)
+- **PDF Handling:** PDF-lib
+- **UI:** File Upload, Zoomable Preview, Modal with Blur and Animation
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📸 Preview
 
-## Deploy on Vercel
+App Screenshot
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+![image](https://github.com/user-attachments/assets/8eeabd80-8d1a-4955-9347-6ecb468c25be)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+## ⚠️ Note
+## Currently, the AI API is mocked due to unreliable results from the OpenRouter integration. Once a stable API is available, backend integration will be completed.
+
+## 🤝 Credits
+- ✨ Built with ❤️ by Usman Ali.
+- 💡 Inspired by the need to make resume optimisation easier for job seekers.
+
